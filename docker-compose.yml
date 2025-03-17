@@ -1,0 +1,11 @@
+version: "3"
+services:
+  vdraw:
+    image: vdraw_image
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: vdraw_container
+
+    volumes:
+      - .:/workspace:cached

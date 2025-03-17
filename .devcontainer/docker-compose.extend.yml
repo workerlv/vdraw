@@ -1,0 +1,7 @@
+version: '3'
+services:
+  vdraw:
+    volumes:
+      - .:/workspace:cached
+    command: sleep infinity
+    entrypoint: ""

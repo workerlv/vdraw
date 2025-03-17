@@ -1,0 +1,5 @@
+cloudpathlib>=0.21.0
+numpy>=2.2.4
+opencv-python-headless>=4.11.0.86
+setuptools==76.0.0
+wheel==0.45.1
