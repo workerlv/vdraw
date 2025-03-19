@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 
-def bounding_boxes_of_binary_segmentation_mask(
+def segmentation_mask_bboxes(
     mask: np.ndarray, preview_image: bool = False, save_image_in_path: str = None
 ):
     """
@@ -46,3 +46,26 @@ def bounding_boxes_of_binary_segmentation_mask(
         cv2.imwrite(save_image_in_path, mask_with_boxes)
 
     return bounding_boxes
+
+
+# TODO: add params and typings
+def largest_combined_bbox(mask: np.ndarray):
+    binary_mask = (mask > 0).astype(np.uint8) * 255
+    contours, _ = cv2.findContours(
+        binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+    )
+    bounding_boxes = [cv2.boundingRect(cnt) for cnt in contours]
+    min_x, min_y, max_x, max_y = mask.shape[1], mask.shape[0], 0, 0
+
+    for x, y, w, h in bounding_boxes:
+        if w < 100 and h < 100:
+            continue
+        min_x = min(min_x, x)
+        min_y = min(min_y, y)
+        max_x = max(max_x, x + w)
+        max_y = max(max_y, y + h)
+
+    width = max_x - min_x
+    height = max_y - min_y
+
+    return [min_x, min_y, width, height]

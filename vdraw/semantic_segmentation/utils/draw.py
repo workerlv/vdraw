@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 
-def overlay_binary_segmentation_mask(
+def overlay_segmentation_mask(
     image: np.ndarray,
     mask: np.ndarray,
     color=(0, 255, 0),
@@ -27,6 +27,10 @@ def overlay_binary_segmentation_mask(
         raise ValueError("Image or mask is None")
     if image.shape[:2] != mask.shape[:2]:
         raise ValueError("Image and mask must have the same spatial dimensions")
+
+    # TODO: check if mask is grayscale
+    if mask.shape[2] > 1:
+        mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
     # Ensure the mask is binary (0 and 1)
     mask = (mask > 0).astype(np.uint8)
@@ -53,3 +57,16 @@ def overlay_binary_segmentation_mask(
         cv2.imwrite(save_image_in_path, overlayed_image)
 
     return overlayed_image
+
+
+def bboxes(bboxes: list[list[int]], image: np.ndarray, color=(0, 255, 0), thickness=10):
+
+    # TODO: add image checks (if not none, if channels count ok, etc)
+
+    d_image = image.copy()
+
+    for bbox in bboxes:
+        x, y, w, h = bbox
+        cv2.rectangle(d_image, (x, y), (x + w, y + h), color, thickness)
+
+    return d_image
