@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def smart_image_crop(
+def combined_crop(
     img: np.ndarray,
     mask: np.ndarray,
     bounding_box: list[int],

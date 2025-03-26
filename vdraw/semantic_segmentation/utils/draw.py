@@ -8,7 +8,6 @@ def overlay_segmentation_mask(
     mask: np.ndarray,
     color=(0, 255, 0),
     alpha=0.6,
-    preview_image=False,
     save_image_in_path=None,
 ):
     """
@@ -28,8 +27,7 @@ def overlay_segmentation_mask(
     if image.shape[:2] != mask.shape[:2]:
         raise ValueError("Image and mask must have the same spatial dimensions")
 
-    # TODO: check if mask is grayscale
-    if mask.shape[2] > 1:
+    if len(mask.shape) == 3:
         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
 
     # Ensure the mask is binary (0 and 1)
@@ -41,12 +39,6 @@ def overlay_segmentation_mask(
 
     # Blend the images
     overlayed_image = cv2.addWeighted(color_mask, alpha, image, 1 - alpha, 0)
-
-    if preview_image:
-        cv2.namedWindow("Overlayed Image", cv2.WINDOW_NORMAL)
-        cv2.imshow("Overlayed Image", overlayed_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
 
     if save_image_in_path:
         save_image_in_path = Path(save_image_in_path)

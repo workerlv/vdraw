@@ -30,12 +30,10 @@ def combine_overlapping_bboxes(bboxes: list[list[int]]) -> list[list[int]]:
         new_bboxes = []
         while local_bboxes:
             current = local_bboxes.pop(0)
-            has_merged = False
             for i in range(len(local_bboxes)):
                 if is_overlapping(current, local_bboxes[i]):
                     # Merge and break to restart the process
                     current = merge_bboxes(current, local_bboxes.pop(i))
-                    has_merged = True
                     merged = True
                     break
             new_bboxes.append(current)

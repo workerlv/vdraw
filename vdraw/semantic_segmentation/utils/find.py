@@ -1,18 +1,16 @@
-from pathlib import Path
+from vdraw.semantic_segmentation.utils.bbox import BBox
+
 import numpy as np
 import cv2
 
 
-def segmentation_mask_bboxes(
-    mask: np.ndarray, preview_image: bool = False, save_image_in_path: str = None
-):
+def mask_bboxes(mask: np.ndarray) -> list[BBox]:
     """
-    Finds bounding boxes of segmentation masks and optionally displays or saves the image with drawn boxes.
+    Finds bounding boxes of segmentation masks and optionally displays or saves the image with drawn boxes
 
-    :param mask: Segmentation mask as a NumPy array (grayscale or binary).
-    :param preview_image: If True, displays the image with bounding boxes.
-    :param save_image_in_path: If provided, saves the image with bounding boxes at the given path.
-    :return: List of bounding boxes [(x, y, w, h), ...].
+    :param mask: Segmentation mask as a NumPy array (grayscale or binary)
+    :param save_image_in_path: If provided, saves the image with bounding boxes at the given path
+    :returns: List of BBox objects [BBox, ...]
     """
     # Convert mask to binary
     binary_mask = (mask > 0).astype(np.uint8) * 255
@@ -25,27 +23,7 @@ def segmentation_mask_bboxes(
     # Get bounding boxes
     bounding_boxes = [cv2.boundingRect(cnt) for cnt in contours]
 
-    # Create an image to display bounding boxes
-    mask_with_boxes = cv2.cvtColor(binary_mask, cv2.COLOR_GRAY2BGR)
-    for x, y, w, h in bounding_boxes:
-        cv2.rectangle(mask_with_boxes, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-    # Preview the image if enabled
-    if preview_image:
-        cv2.imshow("Bounding Boxes", mask_with_boxes)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
-    # Save the image if a path is provided
-    if save_image_in_path:
-        save_image_in_path = Path(save_image_in_path)
-        if not save_image_in_path.parent.exists():
-            raise ValueError(
-                f"Parent directory {save_image_in_path.parent} does not exist"
-            )
-        cv2.imwrite(save_image_in_path, mask_with_boxes)
-
-    return bounding_boxes
+    return [BBox(*bbox) for bbox in bounding_boxes]
 
 
 # TODO: add params and typings
