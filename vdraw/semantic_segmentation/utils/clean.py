@@ -1,28 +1,31 @@
-def combine_overlapping_bboxes(bboxes: list[list[int]]) -> list[list[int]]:
+from vdraw.semantic_segmentation.bbox import BBox
+
+
+def combine_overlapping_bboxes(bboxes: list[BBox]) -> list[list[int]]:
     if not bboxes:
         return []
 
     local_bboxes = bboxes.copy()
 
     # Helper function to check overlap
-    def is_overlapping(bbox1, bbox2):
-        x1, y1, w1, h1 = bbox1
-        x2, y2, w2, h2 = bbox2
+    def is_overlapping(bbox1: BBox, bbox2: BBox):
+        x1, y1, w1, h1 = bbox1.get_XYWH_list()
+        x2, y2, w2, h2 = bbox2.get_XYWH_list()
 
         # Check if the bounding boxes overlap
         return not (x1 + w1 < x2 or x2 + w2 < x1 or y1 + h1 < y2 or y2 + h2 < y1)
 
     # Helper function to merge two bounding boxes
-    def merge_bboxes(bbox1, bbox2):
-        x1, y1, w1, h1 = bbox1
-        x2, y2, w2, h2 = bbox2
+    def merge_bboxes(bbox1: BBox, bbox2: BBox):
+        x1, y1, w1, h1 = bbox1.get_XYWH_list()
+        x2, y2, w2, h2 = bbox2.get_XYWH_list()
 
         new_x = min(x1, x2)
         new_y = min(y1, y2)
         new_w = max(x1 + w1, x2 + w2) - new_x
         new_h = max(y1 + h1, y2 + h2) - new_y
 
-        return [new_x, new_y, new_w, new_h]
+        return BBox(x1=new_x, y1=new_y, width=new_w, height=new_h)
 
     merged = True
     while merged:
@@ -40,8 +43,4 @@ def combine_overlapping_bboxes(bboxes: list[list[int]]) -> list[list[int]]:
 
         local_bboxes = new_bboxes
 
-    clean_small_bboxes = [
-        bbox for bbox in local_bboxes if bbox[2] > 50 and bbox[3] > 50
-    ]
-
-    return clean_small_bboxes
+    return new_bboxes

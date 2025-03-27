@@ -1,5 +1,4 @@
-from vdraw.semantic_segmentation.utils.bbox import BBox
-
+from vdraw.semantic_segmentation.bbox import BBox
 import numpy as np
 import cv2
 

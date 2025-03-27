@@ -1,3 +1,4 @@
+from vdraw.semantic_segmentation.bbox import BBox
 from pathlib import Path
 import numpy as np
 import cv2
@@ -51,14 +52,21 @@ def overlay_segmentation_mask(
     return overlayed_image
 
 
-def bboxes(bboxes: list[list[int]], image: np.ndarray, color=(0, 255, 0), thickness=10):
+def bboxes(bboxes: list[BBox], image: np.ndarray, color=(120, 120, 120), thickness=10):
+    """
+    Draws bounding boxes on an image.
 
-    # TODO: add image checks (if not none, if channels count ok, etc)
+    :param bboxes: List of BBox objects.
+    :param image: RGB image as a NumPy array.
+    :param color: RGB color for the bounding boxes (default is (120, 120, 120)).
+    :param thickness: Thickness of the bounding boxes (default is 10).
 
-    d_image = image.copy()
+    :return: Image with drawn bounding boxes.
+    """
+
+    debug_image = image.copy()
 
     for bbox in bboxes:
-        x, y, w, h = bbox
-        cv2.rectangle(d_image, (x, y), (x + w, y + h), color, thickness)
+        debug_image = bbox.draw_bbox(debug_image, color=color, thickness=thickness)
 
-    return d_image
+    return debug_image

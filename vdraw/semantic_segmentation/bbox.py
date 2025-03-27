@@ -53,11 +53,11 @@ class BBox:
 
     def expand_horizontally(self, amount):
         self.x1 -= amount
-        self.x2 += amount
+        self.width += amount * 2
 
     def expand_vertically(self, amount):
         self.y1 -= amount
-        self.y2 += amount
+        self.height += amount * 2
 
     def expand(self, amount):
         self.expand_horizontally(amount)
