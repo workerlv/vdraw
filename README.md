@@ -16,7 +16,15 @@ pip install dist/my_package-0.1.0-py3-none-any.whl
 ```
 
 Optionally can upload to PyPi:
+
 ```
 pip install twine
-twine upload dist/*
+```
+
+```
+python -m build
+```
+
+```
+python -m twine upload dist/*
 ```
