@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
+import numpy as np
 import cv2
 
 
@@ -34,7 +35,11 @@ class BBox:
         return [self.x1, self.y1, self.width, self.height]
 
     def draw_bbox(
-        self, image, color=(120, 120, 120), thickness=5, save_image_in_path: str = None
+        self,
+        image: np.ndarray,
+        color=(120, 120, 120),
+        thickness=5,
+        save_image_in_path: str = None,
     ):
         img_with_bbox = image.copy()
         cv2.rectangle(
@@ -51,15 +56,15 @@ class BBox:
 
         return img_with_bbox
 
-    def expand_horizontally(self, amount):
+    def expand_horizontally(self, amount: int):
         self.x1 -= amount
         self.width += amount * 2
 
-    def expand_vertically(self, amount):
+    def expand_vertically(self, amount: int):
         self.y1 -= amount
         self.height += amount * 2
 
-    def expand(self, amount):
+    def expand(self, amount: int):
         self.expand_horizontally(amount)
         self.expand_vertically(amount)
 

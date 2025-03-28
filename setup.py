@@ -2,10 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="vdraw",
-    version="0.1.0",
+    version="0.1.1",
     description="A library for working with segmentation masks",
-    author="Arturs Vitins",
-    author_email="workerlv@gmail.com",
+    author="workerlv",
     packages=find_packages(),
     install_requires=["numpy", "opencv-python"],
     classifiers=[

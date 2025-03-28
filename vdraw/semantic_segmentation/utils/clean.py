@@ -1,7 +1,15 @@
 from vdraw.semantic_segmentation.bbox import BBox
 
 
-def combine_overlapping_bboxes(bboxes: list[BBox]) -> list[list[int]]:
+def combine_overlapping_bboxes(bboxes: list[BBox]) -> list[BBox]:
+    """
+    Combine overlapping bounding boxes.
+
+    :param bboxes: List of BBox objects.
+
+    :return: List of combined BBox objects.
+    """
+
     if not bboxes:
         return []
 

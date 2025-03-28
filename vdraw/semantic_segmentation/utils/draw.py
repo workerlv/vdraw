@@ -20,6 +20,7 @@ def overlay_segmentation_mask(
     :param alpha: Transparency level of the overlay (default is 0.6).
     :param preview_image: Whether to display the overlayed image in a window (default is False).
     :param save_image_in_path: Path to save the overlayed image (default is None).
+
     :return: Image with overlayed mask.
     """
     # Check if image and mask are valid
@@ -52,6 +53,7 @@ def overlay_segmentation_mask(
     return overlayed_image
 
 
+# TODO: add to documentation
 def bboxes(bboxes: list[BBox], image: np.ndarray, color=(120, 120, 120), thickness=10):
     """
     Draws bounding boxes on an image.

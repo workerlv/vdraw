@@ -1,30 +1,12 @@
-Template for .whl package file creation
+# V-Draw
 
-Optional - run project inside docker container.
+V-Draw is a library with help tools for segmentation tasks.
 
-When project is created build whl file with command:
-
-```
-python setup.py bdist_wheel
-```
-
-If build is successful than new package will be created inside "dist" folder.
-
-To install whl loacally use command:
-```
-pip install dist/my_package-0.1.0-py3-none-any.whl
-```
-
-Optionally can upload to PyPi:
 
 ```
-pip install twine
+pip install vdraw
 ```
 
-```
-python -m build
-```
+Documentation can be found [here](vdraw-doc.streamlit.app)
 
-```
-python -m twine upload dist/*
-```
+Project is in development phase, but some usefull functions are already added.
