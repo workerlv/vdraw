@@ -52,3 +52,23 @@ def combine_overlapping_bboxes(bboxes: list[BBox]) -> list[BBox]:
         local_bboxes = new_bboxes
 
     return new_bboxes
+
+
+def small_bboxes_out_of_list(
+    bboxes: list[BBox], min_width: int = 0, min_height: int = 0
+) -> list[BBox]:
+    """
+    Removes bounding boxes that are smaller than the specified minimum width and height.
+
+    :param bboxes: List of BBox objects.
+    :param min_width: Minimum width of the bounding box (Optional)
+    :param min_height: Minimum height of the bounding box (Optional)
+    """
+    for bbox in bboxes:
+        if min_width > 0 and bbox.width < min_width:
+            bboxes.remove(bbox)
+
+        if min_height > 0 and bbox.height < min_height:
+            bboxes.remove(bbox)
+
+    return bboxes

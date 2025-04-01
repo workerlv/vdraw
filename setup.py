@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="vdraw",
-    version="0.1.1",
+    version="0.1.2",
     description="A library for working with segmentation masks",
     author="workerlv",
     packages=find_packages(),
