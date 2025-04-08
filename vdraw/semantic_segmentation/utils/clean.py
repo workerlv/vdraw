@@ -1,4 +1,5 @@
 from vdraw.semantic_segmentation.bbox import BBox
+import numpy as np
 
 
 def combine_overlapping_bboxes(bboxes: list[BBox]) -> list[BBox]:
@@ -72,3 +73,25 @@ def small_bboxes_out_of_list(
             bboxes.remove(bbox)
 
     return bboxes
+
+
+def out_of_bounds_bbox(bbox: BBox, image: np.ndarray) -> BBox:
+    """
+    Clips a bounding box so it stays within the bounds of the given image.
+
+    :param bbox: BBox object.
+    :param image: RGB image as a NumPy array.
+    :return: Clipped BBox object.
+    """
+    x1, y1, x2, y2 = bbox.get_XYXY_list()
+
+    x1 = max(0, x1)
+    y1 = max(0, y1)
+    x2 = min(image.shape[1], x2)
+    y2 = min(image.shape[0], y2)
+
+    # safeguard
+    x2 = max(x2, x1)
+    y2 = max(y2, y1)
+
+    return BBox(x1=x1, y1=y1, width=x2 - x1, height=y2 - y1)
