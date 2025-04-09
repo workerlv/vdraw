@@ -64,15 +64,16 @@ def small_bboxes_out_of_list(
     :param bboxes: List of BBox objects.
     :param min_width: Minimum width of the bounding box (Optional)
     :param min_height: Minimum height of the bounding box (Optional)
+
+    :return: List of BBox objects
     """
-    for bbox in bboxes:
-        if min_width > 0 and bbox.width < min_width:
-            bboxes.remove(bbox)
 
-        if min_height > 0 and bbox.height < min_height:
-            bboxes.remove(bbox)
-
-    return bboxes
+    return [
+        bbox
+        for bbox in bboxes
+        if (bbox.width > min_width or min_width == 0)
+        and (bbox.height > min_height or min_height == 0)
+    ]
 
 
 def out_of_bounds_bbox(bbox: BBox, image: np.ndarray) -> BBox:
@@ -81,6 +82,7 @@ def out_of_bounds_bbox(bbox: BBox, image: np.ndarray) -> BBox:
 
     :param bbox: BBox object.
     :param image: RGB image as a NumPy array.
+
     :return: Clipped BBox object.
     """
     x1, y1, x2, y2 = bbox.get_XYXY_list()
